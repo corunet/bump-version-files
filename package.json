@@ -1,0 +1,30 @@
+{
+  "name": "bump-version-files",
+  "description": "Increment version number using semver through list of xml/json files",
+  "version": "0.5.1",
+  "license": "MIT",
+  "bin": "./bump-version-files.js",
+  "keywords": [
+    "bump",
+    "version",
+    "pom",
+    "package.json"
+  ],
+  "dependencies": {
+    "xml2js": "^0.4.19"
+  },
+  "devDependencies": {
+    "eslint": "^4.11.0"
+  },
+  "scripts": {
+    "start": "node bump-version-files.js"
+  },
+  "author": "Corunet S.L. <github@corunet.com> (http://coru.net)",
+  "maintainers": [
+    "Félix Horro Pita <felix@corunet.com> (https://github.com/felixhorro)"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/corunet/bump-version-files.git"
+  }
+}

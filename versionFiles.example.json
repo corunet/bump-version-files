@@ -1,0 +1,10 @@
+[{
+	"filePath": "../path/to/pom.xml",
+	"property": "project.version.0"
+}, {
+	"filePath": "../path/to/project/pom.xml",
+	"property": "project.parent.0.version.0"
+}, {
+	"filePath": "../path/to/package.json",
+	"property": "version"
+}]
