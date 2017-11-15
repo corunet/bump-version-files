@@ -8,25 +8,25 @@ const parser = new xml2js.Parser();
 const builder = new xml2js.Builder();
 
 
-const USAGE = 'USO: bump-version (mayor|minor|patch) ./path/to/filesConfig.json';
+const USAGE = 'USE: bump-version ./path/to/filesConfig.json (mayor|minor|patch)';
 
 console.log('CWD', process.cwd());
 
 const params = {};
 try {
 	if (process.argv < 4) {
-		throw new Error('Número de argumentos no válido.');
+		throw new Error('Need 2 arguments.');
 	}
 
-	params.increment = process.argv[2] && process.argv[2].toLowerCase();
-	if (process.argv[3].startsWith('/')) {
-		params.filesConf = process.argv[3];
+	if (process.argv[2].startsWith('/')) {
+		params.filesConf = process.argv[2];
 	} else {
-		params.filesConf = `${process.cwd()}/${process.argv[3]}`;
+		params.filesConf = `${process.cwd()}/${process.argv[2]}`;
 	}
+	params.increment = process.argv[3] && process.argv[3].toLowerCase();
 
 	if (['mayor', 'minor', 'patch'].indexOf(params.increment) < 0) {
-		throw new Error('No entiendo qué versión hay que subir: ¿mayor, minor o patch?');
+		throw new Error('Which version do you want to upgrade: mayor, minor or patch?');
 	}
 
 	fs.accessSync(params.filesConf, fs.constants.R_OK);
@@ -49,7 +49,7 @@ const incrementVersion = (current, increment) => {
 		case 'patch':
 			return `${mayor}.${minor}.${+patch + 1}`;
 		default:
-			throw new Error('No entiendo qué versión hay que subir.');
+			throw new Error('Malformed switch! (maybe an unknown version type)');
 	}
 };
 
@@ -82,7 +82,7 @@ const incrementVersionFile = ({ filePath, property }, increment) => {
 				} else {
 					const { version, data: newData } = incrementVersionProperty(data, property, increment);
 					const pomStringNewVersion = builder.buildObject(newData);
-					console.log(`Subiendo ${version.from} => ${version.to} en ${filePath}.`);
+					console.log(`Bump ${version.from} => ${version.to} version in ${filePath}.`);
 					fs.writeFileSync(filePath, pomStringNewVersion);
 				}
 			});
@@ -91,11 +91,11 @@ const incrementVersionFile = ({ filePath, property }, increment) => {
 			const json = JSON.parse(dataString);
 			const { version, data: newJson } = incrementVersionProperty(json, property, increment);
 			fs.writeFileSync(filePath, JSON.stringify(newJson, null, '  '));
-			console.log(`Subiendo ${version.from} => ${version.to} en ${filePath}.`);
+			console.log(`Bump ${version.from} => ${version.to} version in ${filePath}.`);
 			break;
 		}
 		default:
-			throw new Error(`No sé cambiar la versión a un ${path.extname(filePath)}`);
+			throw new Error(`Don't know how to bump version in a ${path.extname(filePath)} file.`);
 	}
 };
 
