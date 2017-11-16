@@ -5,7 +5,12 @@ const xml2js = require('xml2js');
 const path = require('path');
 
 const parser = new xml2js.Parser();
-const builder = new xml2js.Builder();
+const builder = new xml2js.Builder({
+	xmldec: {
+		version: '1.0',
+		encoding: 'UTF-8'
+	}
+});
 
 
 const USAGE = 'USE: bump-version ./path/to/filesConfig.json (mayor|minor|patch)';
