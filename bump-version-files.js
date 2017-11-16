@@ -15,8 +15,6 @@ const builder = new xml2js.Builder({
 
 const USAGE = 'USE: bump-version ./path/to/filesConfig.json (mayor|minor|patch)';
 
-console.log('CWD', process.cwd());
-
 const params = {};
 try {
 	if (process.argv < 4) {
