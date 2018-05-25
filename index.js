@@ -48,23 +48,26 @@ const incrementVersionFile = ({ filePath, property }, increment) => {
 	const dataString = fs.readFileSync(filePath);
 	switch(path.extname(filePath)) {
 		case '.xml':
+			let version;
 			parser.parseString(dataString, (err, data) => {
 				if (err) {
 					throw new Error(err);
 				} else {
-					const { version, data: newData } = incrementVersionProperty(data, property, increment);
-					const pomStringNewVersion = builder.buildObject(newData);
-					console.log(`Bump ${version.from} => ${version.to} version in ${filePath}.`);
+					const versionResult = incrementVersionProperty(data, property, increment);
+					const pomStringNewVersion = builder.buildObject(versionResult.data);
 					fs.writeFileSync(filePath, pomStringNewVersion);
+
+					version = versionResult.version;
 				}
 			});
-			break;
+
+			return version;
 		case '.json': {
 			const json = JSON.parse(dataString);
 			const { version, data: newJson } = incrementVersionProperty(json, property, increment);
 			fs.writeFileSync(filePath, JSON.stringify(newJson, null, '  '));
-			console.log(`Bump ${version.from} => ${version.to} version in ${filePath}.`);
-			break;
+
+			return version;
 		}
 		default:
 			throw new Error(`Don't know how to bump version in a ${path.extname(filePath)} file.`);
