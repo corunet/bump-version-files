@@ -32,5 +32,7 @@ try {
 
 const FILES = require(params.filesConf);
 
-FILES.forEach(file => incrementVersionFile(file, params.increment));
-
+FILES.forEach(file => {
+	const version = incrementVersionFile(file, params.increment);
+	console.log(`Bump ${version.from} => ${version.to} version in ${file.filePath}.`);
+});
