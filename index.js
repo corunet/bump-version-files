@@ -46,11 +46,6 @@ const incrementVersionProperty = (data, properties, increment) => {
 const incrementVersionFile = ({ filePath, property, separator = '.' }, increment) => {
 	const dataString = fs.readFileSync(filePath);
 	const properties = property.split(separator);
-console.log(`
-
-SEPARATOR ${separator}
-
-`);
 	switch(path.extname(filePath)) {
 		case '.xml':
 			let version;
