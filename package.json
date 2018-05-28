@@ -1,7 +1,7 @@
 {
   "name": "bump-version-files",
   "description": "Increment version number using semver through list of xml/json files",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "license": "MIT",
   "bin": "./bump-version-files.js",
   "main": "./index.js",
