@@ -25,9 +25,8 @@ const incrementVersion = (current, increment) => {
 	}
 };
 
-const incrementVersionProperty = (data, property, increment) => {
+const incrementVersionProperty = (data, properties, increment) => {
 	let version = data;
-	const properties = property.split('.');
 	const versionProperty = properties.pop();
 	properties.forEach(prop => version = version[prop]);
 	const oldVersion = version[versionProperty];
@@ -44,8 +43,9 @@ const incrementVersionProperty = (data, property, increment) => {
 	};
 };
 
-const incrementVersionFile = ({ filePath, property }, increment) => {
+const incrementVersionFile = ({ filePath, property, separator = '.' }, increment) => {
 	const dataString = fs.readFileSync(filePath);
+	const properties = property.split(separator);
 	switch(path.extname(filePath)) {
 		case '.xml':
 			let version;
@@ -53,7 +53,7 @@ const incrementVersionFile = ({ filePath, property }, increment) => {
 				if (err) {
 					throw new Error(err);
 				} else {
-					const versionResult = incrementVersionProperty(data, property, increment);
+					const versionResult = incrementVersionProperty(data, properties, increment);
 					const pomStringNewVersion = builder.buildObject(versionResult.data);
 					fs.writeFileSync(filePath, pomStringNewVersion);
 
@@ -64,7 +64,7 @@ const incrementVersionFile = ({ filePath, property }, increment) => {
 			return version;
 		case '.json': {
 			const json = JSON.parse(dataString);
-			const { version, data: newJson } = incrementVersionProperty(json, property, increment);
+			const { version, data: newJson } = incrementVersionProperty(json, properties, increment);
 			fs.writeFileSync(filePath, JSON.stringify(newJson, null, '  '));
 
 			return version;
