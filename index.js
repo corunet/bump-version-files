@@ -76,4 +76,3 @@ const incrementVersionFile = ({ filePath, property, separator = '.' }, increment
 
 
 exports.incrementVersionFile = incrementVersionFile;
-
