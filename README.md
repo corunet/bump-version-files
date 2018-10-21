@@ -1,3 +1,5 @@
+[![npm version](https://badge.fury.io/js/bump-version-files.svg)](https://badge.fury.io/js/bump-version-files)
+
 # Bump-version-files
 
 Tired of editing tons of pom.xml and package.json every time you need to publish a new version? bump-version-files is the utility you are looking for!
