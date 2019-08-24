@@ -74,7 +74,7 @@ const incrementVersionFile = ({ filePath, property, separator = '.' }, increment
 		case '.yml':
 		case '.yaml':
 			const file = fs.readFileSync(filePath, 'utf8');
-			const {version, data: newYML} = incrementVersionProperty(yaml.safeLoad(file), properties, increment);
+			const { version, data: newYML } = incrementVersionProperty(yaml.safeLoad(file), properties, increment);
 			const resultingFile = yaml.dump(newYML);
 
 			fs.writeFileSync(filePath, resultingFile);
