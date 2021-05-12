@@ -1,6 +1,7 @@
 const fs = require('fs');
 const xml2js = require('xml2js');
 const path = require('path');
+const yaml = require('js-yaml');
 
 const parser = new xml2js.Parser();
 const builder = new xml2js.Builder({
@@ -47,7 +48,7 @@ const incrementVersionFile = ({ filePath, property, separator = '.' }, increment
 	const dataString = fs.readFileSync(filePath);
 	const properties = property.split(separator);
 	switch(path.extname(filePath)) {
-		case '.xml':
+		case '.xml': {
 			let version;
 			parser.parseString(dataString, (err, data) => {
 				if (err) {
@@ -62,6 +63,7 @@ const incrementVersionFile = ({ filePath, property, separator = '.' }, increment
 			});
 
 			return version;
+		}
 		case '.json': {
 			const json = JSON.parse(dataString);
 			const { version, data: newJson } = incrementVersionProperty(json, properties, increment);
@@ -69,6 +71,16 @@ const incrementVersionFile = ({ filePath, property, separator = '.' }, increment
 
 			return version;
 		}
+		case '.yml':
+		case '.yaml':
+			const file = fs.readFileSync(filePath, 'utf8');
+			const { version, data: newYML } = incrementVersionProperty(yaml.safeLoad(file), properties, increment);
+			const resultingFile = yaml.dump(newYML);
+
+			fs.writeFileSync(filePath, resultingFile);
+
+			return version;
+
 		default:
 			throw new Error(`Don't know how to bump version in a ${path.extname(filePath)} file.`);
 	}
