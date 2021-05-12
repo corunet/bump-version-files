@@ -1,3 +1,6 @@
+# [Deprecated] This repository is no longer maintained.
+
+
 [![npm version](https://badge.fury.io/js/bump-version-files.svg)](https://badge.fury.io/js/bump-version-files)
 
 # Bump-version-files
